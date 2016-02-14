@@ -3384,5 +3384,20 @@ function! tagbar#inspect(var) abort
     return get(s:, a:var)
 endfunction
 
+" tagbar#currenttagtype() {{{2
+function! tagbar#currenttagtype(fmt, default) abort
+    " Indicate that the statusline functionality is being used. This prevents
+    " the CloseWindow() function from removing the autocommands.
+    let s:statusline_in_use = 1
+    let kind = ''
+    let tag = s:GetNearbyTag(0, 1)
+
+    if empty(tag)
+        return a:default
+    endif
+
+    return printf(a:fmt, self.fileinfo.typeinfo.kind2scope[self.fields.kind])
+endfunction
+
 " Modeline {{{1
 " vim: ts=8 sw=4 sts=4 et foldenable foldmethod=marker foldcolumn=1
